@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block baslik %}Kitap Listesi - Kütüphane Sistemi{% endblock %}
+
+{% block icerik %}
+<div class="card shadow-sm border-0 rounded-4 p-4">
+    <!-- Üst Başlık ve Yeni Ekleme Butonu -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 pb-3 border-bottom mb-4">
+        <div>
+            <h2 class="fw-bold mb-1 d-flex align-items-center gap-2">
+                <i class="bi bi-book text-primary"></i>
+                <span>Kitap Koleksiyonu</span>
+            </h2>
+            <p class="text-muted mb-0">
+                Kütüphanemizde bulunan toplam kitap sayısı: <span class="badge bg-primary fs-6">{{ toplam_kitap }}</span>
+            </p>
+        </div>
+        <div>
+            <a href="{{ url_for('kitap_ekle') }}" class="btn btn-success d-inline-flex align-items-center gap-2 shadow-sm">
+                <i class="bi bi-plus-circle-fill"></i>
+                <span>Yeni Kitap Ekle</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Arama Kutusu -->
+    <div class="row mb-4">
+        <div class="col-md-6 col-lg-5">
+            <div class="input-group shadow-sm">
+                <span class="input-group-text bg-white border-end-0" id="arama-ikonu">
+                    <i class="bi bi-search text-muted"></i>
+                </span>
+                <input 
+                    type="text" 
+                    id="kitapAramaKutusu" 
+                    class="form-control border-start-0 ps-0" 
+                    placeholder="Kitap adı, yazar veya kategori ara..." 
+                    aria-label="Kitap Ara" 
+                    aria-describedby="arama-ikonu"
+                >
+                <button class="btn btn-outline-secondary" type="button" id="aramaTemizleBtn" title="Aramayı Temizle">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <small class="text-muted ps-1">Tablo üzerinde anlık filtreleme yapabilirsiniz.</small>
+        </div>
+    </div>
+
+    {% if kitaplar %}
+    <!-- Bootstrap Hover Tablo -->
+    <div class="table-responsive rounded-3 shadow-sm mb-4">
+        <table class="table table-hover table-striped align-middle mb-0 tablo-ozel" id="kitaplarTablosu">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 70px;">ID</th>
+                    <th scope="col">Kitap Adı</th>
+                    <th scope="col">Yazar</th>
+                    <th scope="col" style="width: 120px;">Basım Yılı</th>
+                    <th scope="col" style="width: 150px;">Kategori</th>
+                    <th scope="col" style="width: 100px;" class="text-center">Kopya</th>
+                    <th scope="col" style="width: 220px;" class="text-center">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for kitap in kitaplar %}
+                <tr>
+                    <td class="fw-bold text-muted">#{{ kitap.id }}</td>
+                    <td>
+                        <a href="{{ url_for('kitap_detay', id=kitap.id) }}" class="text-decoration-none fw-semibold text-primary d-inline-flex align-items-center gap-1">
+                            <i class="bi bi-journal-text text-secondary"></i>
+                            <span>{{ kitap.ad }}</span>
+                        </a>
+                    </td>
+                    <td>{{ kitap.yazar }}</td>
+                    <td>
+                        <span class="badge bg-light text-dark border">{{ kitap.yil if kitap.yil else '-' }}</span>
+                    </td>
+                    <td>
+                        <span class="badge bg-info-subtle text-info-emphasis px-2 py-1">{{ kitap.kategori if kitap.kategori else 'Genel' }}</span>
+                    </td>
+                    <td class="text-center">
+                        <span class="badge bg-success-subtle text-success-emphasis rounded-pill px-3">{{ kitap.kopya_sayisi }}</span>
+                    </td>
+                    <td class="text-center">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Kitap İşlemleri">
+                            <a href="{{ url_for('kitap_detay', id=kitap.id) }}" class="btn btn-outline-primary" title="Detay">
+                                <i class="bi bi-eye me-1"></i>Detay
+                            </a>
+                            <a href="{{ url_for('kitap_guncelle', id=kitap.id) }}" class="btn btn-primary" title="Düzenle">
+                                <i class="bi bi-pencil-square me-1"></i>Düzenle
+                            </a>
+                            <a href="{{ url_for('kitap_sil', id=kitap.id) }}" class="btn btn-danger" title="Sil">
+                                <i class="bi bi-trash3 me-1"></i>Sil
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap Sayfalama (Pagination) -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 pt-2">
+        <div class="text-muted small">
+            Toplam {{ toplam_kitap }} kitaptan Sayfa {{ sayfa }} / {{ toplam_sayfa }}
+        </div>
+
+        <nav aria-label="Kitap Sayfalama">
+            <ul class="pagination pagination-sm mb-0">
+                {% if sayfa > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('kitaplar', sayfa=1) }}" aria-label="İlk">
+                            <span aria-hidden="true">&laquo; İlk</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('kitaplar', sayfa=sayfa-1) }}" aria-label="Önceki">
+                            <span aria-hidden="true">&lsaquo; Önceki</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&laquo; İlk</span>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link">&lsaquo; Önceki</span>
+                    </li>
+                {% endif %}
+
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">{{ sayfa }}</span>
+                </li>
+
+                {% if sayfa < toplam_sayfa %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('kitaplar', sayfa=sayfa+1) }}" aria-label="Sonraki">
+                            <span aria-hidden="true">Sonraki &rsaquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('kitaplar', sayfa=toplam_sayfa) }}" aria-label="Son">
+                            <span aria-hidden="true">Son &raquo;</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Sonraki &rsaquo;</span>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link">Son &raquo;</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+    {% else %}
+    <!-- Boş Durum Bilgisi -->
+    <div class="alert alert-info d-flex align-items-center justify-content-between p-4 rounded-3" role="alert">
+        <div class="d-flex align-items-center gap-3">
+            <i class="bi bi-info-circle-fill fs-2"></i>
+            <div>
+                <h5 class="alert-heading mb-1">Henüz Kitap Bulunmuyor</h5>
+                <p class="mb-0">Kütüphanede kayıtlı herhangi bir kitap verisi bulunmamaktadır.</p>
+            </div>
+        </div>
+        <a href="{{ url_for('kitap_ekle') }}" class="btn btn-success">
+            <i class="bi bi-plus-circle me-1"></i> İlk Kitabı Ekle
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Canlı Arama Filtreleme JavaScript Kodu -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const aramaKutusu = document.getElementById("kitapAramaKutusu");
+        const temizleBtn = document.getElementById("aramaTemizleBtn");
+        const tablo = document.getElementById("kitaplarTablosu");
+
+        if (aramaKutusu && tablo) {
+            aramaKutusu.addEventListener("input", function () {
+                const filtre = aramaKutusu.value.toLowerCase().trim();
+                const satirlar = tablo.querySelectorAll("tbody tr");
+
+                satirlar.forEach(function (satir) {
+                    const metin = satir.textContent.toLowerCase();
+                    if (metin.includes(filtre)) {
+                        satir.style.display = "";
+                    } else {
+                        satir.style.display = "none";
+                    }
+                });
+            });
+
+            temizleBtn.addEventListener("click", function () {
+                aramaKutusu.value = "";
+                const satirlar = tablo.querySelectorAll("tbody tr");
+                satirlar.forEach(function (satir) {
+                    satir.style.display = "";
+                });
+                aramaKutusu.focus();
+            });
+        }
+    });
+</script>
+{% endblock %}

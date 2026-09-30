@@ -1,0 +1,265 @@
+/* ==========================================================================
+   Kütüphane Yönetim Sistemi - Bootstrap 5 Uyumlu Profesyonel Stil Dosyası
+   Renk Şeması:
+   - Primary (Mavi): #3498db
+   - Success (Yeşil): #27ae60
+   - Danger (Kırmızı): #e74c3c
+   - Warning (Sarı): #f39c12
+   ========================================================================== */
+
+:root {
+    --ana-mavi: #3498db;
+    --ana-mavi-koyu: #2980b9;
+    --ana-yesil: #27ae60;
+    --ana-yesil-koyu: #219653;
+    --ana-kirmizi: #e74c3c;
+    --ana-kirmizi-koyu: #c0392b;
+    --ana-sari: #f39c12;
+    --ana-sari-koyu: #d68910;
+    --koyu-arkaplan: #0f172a;
+    --koyu-kart: #1e293b;
+    --koyu-metin: #f1f5f9;
+    --koyu-kenarlik: #334155;
+    --gecis-hizi: 0.3s ease;
+}
+
+/* Genel Gövde ve Tipografi */
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8fafc;
+    color: #2c3e50;
+    transition: background-color var(--gecis-hizi), color var(--gecis-hizi);
+}
+
+/* Karanlık Tema (Dark Mode) Özelleştirmeleri */
+[data-bs-theme="dark"] body {
+    background-color: #0f172a;
+    color: #e2e8f0;
+}
+
+[data-bs-theme="dark"] .card {
+    background-color: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+[data-bs-theme="dark"] .table {
+    --bs-table-bg: #1e293b;
+    --bs-table-striped-bg: #243248;
+    --bs-table-hover-bg: #2d3e58;
+    --bs-table-color: #e2e8f0;
+    --bs-table-border-color: #334155;
+}
+
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select,
+[data-bs-theme="dark"] .input-group-text {
+    background-color: #0f172a;
+    border-color: #334155;
+    color: #f8fafc;
+}
+
+[data-bs-theme="dark"] .form-control:focus,
+[data-bs-theme="dark"] .form-select:focus {
+    background-color: #1e293b;
+    border-color: var(--ana-mavi);
+    color: #ffffff;
+    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+}
+
+[data-bs-theme="dark"] .footer-alani {
+    background-color: #0b1120 !important;
+    border-top-color: #1e293b !important;
+    color: #94a3b8 !important;
+}
+
+/* Özel Navbar & Gradient Arka Plan */
+.navbar-gradient {
+    background: linear-gradient(135deg, #1e3d59 0%, #2980b9 50%, #3498db 100%) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.3px;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.5rem 0.8rem !important;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Renk Butonları & Vurgular */
+.btn-primary {
+    background-color: var(--ana-mavi) !important;
+    border-color: var(--ana-mavi) !important;
+    color: #ffffff !important;
+}
+.btn-primary:hover {
+    background-color: var(--ana-mavi-koyu) !important;
+    border-color: var(--ana-mavi-koyu) !important;
+}
+
+.btn-success {
+    background-color: var(--ana-yesil) !important;
+    border-color: var(--ana-yesil) !important;
+    color: #ffffff !important;
+}
+.btn-success:hover {
+    background-color: var(--ana-yesil-koyu) !important;
+    border-color: var(--ana-yesil-koyu) !important;
+}
+
+.btn-danger {
+    background-color: var(--ana-kirmizi) !important;
+    border-color: var(--ana-kirmizi) !important;
+    color: #ffffff !important;
+}
+.btn-danger:hover {
+    background-color: var(--ana-kirmizi-koyu) !important;
+    border-color: var(--ana-kirmizi-koyu) !important;
+}
+
+.btn-warning {
+    background-color: var(--ana-sari) !important;
+    border-color: var(--ana-sari) !important;
+    color: #ffffff !important;
+}
+.btn-warning:hover {
+    background-color: var(--ana-sari-koyu) !important;
+    border-color: var(--ana-sari-koyu) !important;
+}
+
+/* Hoşgeldin Sekmesi (Hero Banner Gradient) */
+.hero-gradient {
+    background: linear-gradient(135deg, #1e3d59 0%, #3498db 70%, #27ae60 100%);
+    color: #ffffff;
+    border-radius: 1rem;
+    padding: 2.75rem 2rem;
+    box-shadow: 0 10px 25px rgba(52, 152, 219, 0.2);
+    margin-bottom: 2.25rem;
+}
+
+/* İstatistik Kartları */
+.stat-karti {
+    border: none;
+    border-radius: 0.85rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.stat-karti:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.09);
+}
+
+.stat-ikon-kutusu {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 1.7rem;
+}
+
+.stat-ikon-mavi {
+    background: rgba(52, 152, 219, 0.15);
+    color: var(--ana-mavi);
+}
+
+.stat-ikon-yesil {
+    background: rgba(39, 174, 96, 0.15);
+    color: var(--ana-yesil);
+}
+
+.stat-ikon-sari {
+    background: rgba(243, 156, 18, 0.15);
+    color: var(--ana-sari);
+}
+
+/* Özellik Kartları */
+.ozellik-karti {
+    border-radius: 0.85rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ozellik-karti:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+}
+
+/* Tablo */
+.tablo-ozel thead th {
+    background-color: #1e3d59;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 12px 16px;
+}
+
+[data-bs-theme="dark"] .tablo-ozel thead th {
+    background-color: #0f172a;
+    color: #94a3b8;
+}
+
+/* Form Kartı */
+.form-karti {
+    border-radius: 0.85rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.zorunlu {
+    color: var(--ana-kirmizi);
+}
+
+/* Sayfalama */
+.page-item.active .page-link {
+    background-color: var(--ana-mavi) !important;
+    border-color: var(--ana-mavi) !important;
+}
+
+.page-link {
+    color: var(--ana-mavi);
+    border-radius: 6px;
+    margin: 0 2px;
+}
+
+/* Footer */
+.footer-alani {
+    margin-top: auto;
+    background-color: #ffffff;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 1.25rem 0;
+    color: #64748b;
+}
+
+/* Tema Butonu */
+.tema-toggle-btn {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.tema-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+}

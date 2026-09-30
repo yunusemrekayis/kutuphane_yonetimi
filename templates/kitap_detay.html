@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block baslik %}{{ kitap.ad }} - Kitap Detayları{% endblock %}
+
+{% block icerik %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-7">
+        <div class="card form-karti shadow-sm p-4 p-md-5 border-0">
+            <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
+                <div class="stat-ikon-kutusu stat-ikon-mavi">
+                    <i class="bi bi-book-half"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold mb-0">{{ kitap.ad }}</h2>
+                    <p class="text-muted small mb-0">Kitap detay bilgileri aşağıda listelenmiştir.</p>
+                </div>
+            </div>
+
+            <div class="list-group list-group-flush mb-4">
+                <div class="list-group-item d-flex justify-content-between align-items-center py-3 bg-transparent">
+                    <span class="text-muted fw-semibold">Kayıt Numarası (ID):</span>
+                    <span class="badge bg-secondary-subtle text-secondary-emphasis fs-6">#{{ kitap.id }}</span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center py-3 bg-transparent">
+                    <span class="text-muted fw-semibold">Kitap Adı:</span>
+                    <span class="fw-bold text-primary">{{ kitap.ad }}</span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center py-3 bg-transparent">
+                    <span class="text-muted fw-semibold">Yazar:</span>
+                    <span class="fw-semibold">{{ kitap.yazar }}</span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center py-3 bg-transparent">
+                    <span class="text-muted fw-semibold">Basım Yılı:</span>
+                    <span>{{ kitap.yil if kitap.yil else '-' }}</span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center py-3 bg-transparent">
+                    <span class="text-muted fw-semibold">Kategori:</span>
+                    <span class="badge bg-info-subtle text-info-emphasis px-3 py-2 fs-6">{{ kitap.kategori if kitap.kategori else '-' }}</span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center py-3 bg-transparent">
+                    <span class="text-muted fw-semibold">Mevcut Kopya Sayısı:</span>
+                    <span class="badge bg-success-subtle text-success-emphasis rounded-pill px-3 py-2 fs-6">{{ kitap.kopya_sayisi }}</span>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 pt-3 border-top">
+                <a href="{{ url_for('kitaplar') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> Listeye Dön
+                </a>
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('kitap_guncelle', id=kitap.id) }}" class="btn btn-primary">
+                        <i class="bi bi-pencil-square me-1"></i> Düzenle
+                    </a>
+                    <a href="{{ url_for('kitap_sil', id=kitap.id) }}" class="btn btn-danger">
+                        <i class="bi bi-trash3 me-1"></i> Sil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

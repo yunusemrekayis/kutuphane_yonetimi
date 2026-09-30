@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block baslik %}Yeni Kitap Ekle - Kütüphane Sistemi{% endblock %}
+
+{% block icerik %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card form-karti shadow-sm p-4 p-md-5 border-0">
+            <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
+                <div class="stat-ikon-kutusu stat-ikon-yesil">
+                    <i class="bi bi-journal-plus"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold mb-0">➕ Yeni Kitap Ekle</h2>
+                    <p class="text-muted small mb-0">Koleksiyona yeni bir eser kaydetmek için bilgileri giriniz.</p>
+                </div>
+            </div>
+
+            {% if hata %}
+            <div class="alert alert-danger d-flex align-items-center mb-4" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                <div>
+                    <strong>⚠️ Hata:</strong> {{ hata }}
+                </div>
+            </div>
+            {% endif %}
+
+            <form action="{{ url_for('kitap_ekle') }}" method="POST" novalidate>
+                <div class="mb-3">
+                    <label for="ad" class="form-label">
+                        Kitap Adı <span class="zorunlu">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="ad" 
+                        name="ad" 
+                        class="form-control" 
+                        placeholder="Örn: Safahat" 
+                        value="{{ form_verisi.get('ad', '') }}" 
+                        required
+                    >
+                </div>
+
+                <div class="mb-3">
+                    <label for="yazar" class="form-label">
+                        Yazar <span class="zorunlu">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="yazar" 
+                        name="yazar" 
+                        class="form-control" 
+                        placeholder="Örn: Mehmet Akif Ersoy" 
+                        value="{{ form_verisi.get('yazar', '') }}" 
+                        required
+                    >
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="yil" class="form-label">Basım Yılı</label>
+                        <input 
+                            type="number" 
+                            id="yil" 
+                            name="yil" 
+                            class="form-control" 
+                            placeholder="Örn: 1911" 
+                            min="1000" 
+                            max="2099" 
+                            value="{{ form_verisi.get('yil', '') }}"
+                        >
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="kategori" class="form-label">Kategori</label>
+                        <input 
+                            type="text" 
+                            id="kategori" 
+                            name="kategori" 
+                            class="form-control" 
+                            placeholder="Örn: Şiir, Tarih" 
+                            value="{{ form_verisi.get('kategori', '') }}"
+                        >
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="kopya_sayisi" class="form-label">Kopya / Adet Sayısı</label>
+                    <input 
+                        type="number" 
+                        id="kopya_sayisi" 
+                        name="kopya_sayisi" 
+                        class="form-control" 
+                        min="1" 
+                        value="{{ form_verisi.get('kopya_sayisi', '1') }}"
+                    >
+                </div>
+
+                <div class="d-flex flex-column flex-sm-row gap-2 pt-2">
+                    <button type="submit" class="btn btn-success btn-lg fw-semibold flex-grow-1 shadow-sm">
+                        <i class="bi bi-check-circle me-1"></i> Kitabı Kaydet
+                    </button>
+                    <a href="{{ url_for('kitaplar') }}" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-arrow-left me-1"></i> İptal
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

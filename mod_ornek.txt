@@ -1,0 +1,4 @@
+3. Yazım: Sınıf hatim takibi listesi güncellendi.
+Ek Satır 1: Ezber takibine yeni ayetler eklendi.
+Ek Satır 2: Kütüphaneye yeni bağış kitapları kaydedildi.
+Yeni nöbet çizelgesi satırı.

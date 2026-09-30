@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block baslik %}Yönetici Paneli - Kütüphane Yönetim Sistemi{% endblock %}
+
+{% block icerik %}
+<!-- Başlık Kartı -->
+<div class="card shadow-sm border-0 rounded-4 p-4 mb-4">
+    <div class="d-flex align-items-center gap-3">
+        <div class="stat-ikon-kutusu stat-ikon-sari">
+            <i class="bi bi-shield-lock-fill"></i>
+        </div>
+        <div>
+            <h2 class="fw-bold mb-1">🛡️ Yönetici (Admin) Kontrol Paneli</h2>
+            <p class="text-muted mb-0">
+                Bu alana sadece sistem yöneticileri erişebilir. Sistemdeki tüm kayıtlı üyeler aşağıda listelenmiştir.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- İstatistik Özetleri -->
+<div class="row g-3 mb-4">
+    <div class="col-md-6">
+        <div class="card stat-karti p-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="stat-ikon-kutusu stat-ikon-mavi">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <div>
+                    <h6 class="text-muted mb-0 small text-uppercase">Toplam Kayıtlı Üye</h6>
+                    <h3 class="fw-bold text-primary mb-0">{{ toplam_uye }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card stat-karti p-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="stat-ikon-kutusu stat-ikon-sari">
+                    <i class="bi bi-award-fill"></i>
+                </div>
+                <div>
+                    <h6 class="text-muted mb-0 small text-uppercase">Toplam Yönetici (Admin)</h6>
+                    <h3 class="fw-bold text-warning mb-0">{{ toplam_admin }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Üye Listesi Tablosu -->
+<div class="card shadow-sm border-0 rounded-4 p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold mb-0 d-flex align-items-center gap-2">
+            <i class="bi bi-person-lines-fill text-primary"></i>
+            <span>📋 Tüm Sistem Üyeleri</span>
+        </h4>
+        <span class="badge bg-primary rounded-pill px-3 py-2">{{ uyeler|length }} Kişi</span>
+    </div>
+
+    <div class="table-responsive rounded-3 shadow-sm">
+        <table class="table table-hover table-striped align-middle mb-0 tablo-ozel">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 70px;">ID</th>
+                    <th scope="col">İsim Soyad</th>
+                    <th scope="col">E-posta</th>
+                    <th scope="col">Telefon</th>
+                    <th scope="col" class="text-center">Rol</th>
+                    <th scope="col">Kayıt Tarihi</th>
+                    <th scope="col" class="text-center" style="width: 170px;">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for uye in uyeler %}
+                <tr>
+                    <td class="fw-bold text-muted">#{{ uye.id }}</td>
+                    <td class="fw-semibold">{{ uye.isim }}</td>
+                    <td>{{ uye.email }}</td>
+                    <td>{{ uye.telefon if uye.telefon else '-' }}</td>
+                    <td class="text-center">
+                        {% if uye.rol == 'admin' %}
+                            <span class="badge bg-danger rounded-pill px-2 py-1">👑 Admin</span>
+                        {% else %}
+                            <span class="badge bg-secondary-subtle text-secondary-emphasis rounded-pill px-2 py-1">📖 Üye</span>
+                        {% endif %}
+                    </td>
+                    <td><small class="text-muted">{{ uye.kayit_tarihi }}</small></td>
+                    <td class="text-center">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a href="{{ url_for('uye_guncelle', id=uye.id) }}" class="btn btn-primary" title="Düzenle">
+                                <i class="bi bi-pencil-square me-1"></i>Düzenle
+                            </a>
+                            <a href="{{ url_for('uye_sil', id=uye.id) }}" class="btn btn-danger" title="Sil" onclick="return confirm('Bu üyeyi silmek istediğinize emin misiniz?');">
+                                <i class="bi bi-trash3 me-1"></i>Sil
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Kullanıcı Paneline Dön
+        </a>
+    </div>
+</div>
+{% endblock %}

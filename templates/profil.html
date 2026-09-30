@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block baslik %}Kullanıcı Profili - Kütüphane Yönetim Sistemi{% endblock %}
+
+{% block icerik %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card form-karti shadow-sm p-4 p-md-5 border-0">
+            <div class="text-center mb-4">
+                <div class="stat-ikon-kutusu stat-ikon-mavi mx-auto mb-3">
+                    <i class="bi bi-person-bounding-box"></i>
+                </div>
+                <h2 class="fw-bold">👤 Kullanıcı Profili</h2>
+                <p class="text-muted small">Profil bilgilerinizi görüntüleyebilir ve güncelleyebilirsiniz.</p>
+            </div>
+
+            {% if hata %}
+            <div class="alert alert-danger d-flex align-items-center mb-4" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                <div>
+                    <strong>⚠️ Uyarı:</strong> {{ hata }}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if bilgi %}
+            <div class="alert alert-success d-flex align-items-center mb-4" role="alert">
+                <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+                <div>
+                    <strong>✅ Başarılı:</strong> {{ bilgi }}
+                </div>
+            </div>
+            {% endif %}
+
+            <form action="{{ url_for('profil') }}" method="POST" novalidate>
+                <div class="mb-3">
+                    <label for="isim" class="form-label">
+                        İsim Soyad <span class="zorunlu">*</span>
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        <input 
+                            type="text" 
+                            id="isim" 
+                            name="isim" 
+                            class="form-control" 
+                            value="{{ uye.isim if uye else '' }}" 
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">
+                        E-posta Adresi <span class="text-muted small">(Değiştirilemez)</span>
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-control bg-light" 
+                            value="{{ uye.email if uye else '' }}" 
+                            disabled
+                        >
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="telefon" class="form-label">Telefon</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                        <input 
+                            type="tel" 
+                            id="telefon" 
+                            name="telefon" 
+                            class="form-control" 
+                            placeholder="05XX XXX XX XX" 
+                            value="{{ uye.telefon if uye and uye.telefon else '' }}"
+                        >
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Hesap Rolü</label>
+                        <input 
+                            type="text" 
+                            class="form-control bg-light" 
+                            value="{{ '👑 Yönetici (Admin)' if uye and uye.rol == 'admin' else '📖 Okuyucu / Üye' }}" 
+                            disabled
+                        >
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Kayıt Tarihi</label>
+                        <input 
+                            type="text" 
+                            class="form-control bg-light" 
+                            value="{{ uye.kayit_tarihi if uye else '' }}" 
+                            disabled
+                        >
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column flex-sm-row gap-2 pt-2">
+                    <button type="submit" class="btn btn-success btn-lg fw-semibold flex-grow-1 shadow-sm">
+                        <i class="bi bi-check2-circle me-1"></i> Bilgileri Güncelle
+                    </button>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-arrow-left me-1"></i> Panele Dön
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

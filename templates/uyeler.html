@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block baslik %}Üye Listesi - Kütüphane Yönetim Sistemi{% endblock %}
+
+{% block icerik %}
+<div class="card shadow-sm border-0 rounded-4 p-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 pb-3 border-bottom mb-4">
+        <div>
+            <h2 class="fw-bold mb-1 d-flex align-items-center gap-2">
+                <i class="bi bi-people text-primary"></i>
+                <span>👥 Kayıtlı Kütüphane Üyeleri</span>
+            </h2>
+            <p class="text-muted mb-0">
+                Sistemde kayıtlı bulunan toplam üye sayısı: <span class="badge bg-primary fs-6">{{ uyeler|length }}</span>
+            </p>
+        </div>
+        <div>
+            <a href="{{ url_for('kayit') }}" class="btn btn-success d-inline-flex align-items-center gap-2 shadow-sm">
+                <i class="bi bi-person-plus-fill"></i>
+                <span>+ Yeni Üye Ekle</span>
+            </a>
+        </div>
+    </div>
+
+    {% if uyeler %}
+    <div class="table-responsive rounded-3 shadow-sm mb-3">
+        <table class="table table-hover table-striped align-middle mb-0 tablo-ozel">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 70px;">ID</th>
+                    <th scope="col">İsim</th>
+                    <th scope="col">E-posta</th>
+                    <th scope="col">Telefon</th>
+                    <th scope="col">Kayıt Tarihi</th>
+                    <th scope="col" class="text-center" style="width: 170px;">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for uye in uyeler %}
+                <tr>
+                    <td class="fw-bold text-muted">#{{ uye.id }}</td>
+                    <td class="fw-semibold">{{ uye.isim }}</td>
+                    <td>{{ uye.email }}</td>
+                    <td>{{ uye.telefon if uye.telefon else '-' }}</td>
+                    <td><small class="text-muted">{{ uye.kayit_tarihi }}</small></td>
+                    <td class="text-center">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a href="{{ url_for('uye_guncelle', id=uye.id) }}" class="btn btn-primary" title="Güncelle">
+                                <i class="bi bi-pencil-square me-1"></i>Güncelle
+                            </a>
+                            <a href="{{ url_for('uye_sil', id=uye.id) }}" class="btn btn-danger" title="Sil" onclick="return confirm('Bu üyeyi silmek istediğinize emin misiniz?');">
+                                <i class="bi bi-trash3 me-1"></i>Sil
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info p-4 rounded-3 mb-0" role="alert">
+        <p class="mb-0">Henüz kayıtlı üye bulunmamaktadır.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

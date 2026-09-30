@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block baslik %}Ayarlar ve İletişim - Kütüphane Sistemi{% endblock %}
+
+{% block icerik %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card form-karti shadow-sm p-4 p-md-5 border-0">
+            <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
+                <div class="stat-ikon-kutusu stat-ikon-mavi">
+                    <i class="bi bi-gear-fill"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold mb-0">⚙️ Kütüphane İletişim Bilgileri</h2>
+                    <p class="text-muted small mb-0">Kurumsal iletişim ve destek bilgileri aşağıdadır.</p>
+                </div>
+            </div>
+
+            <div class="list-group list-group-flush mb-4">
+                <div class="list-group-item d-flex justify-content-between align-items-center py-3 bg-transparent">
+                    <span class="text-muted fw-semibold">
+                        <i class="bi bi-geo-alt-fill text-danger me-2"></i>Adres:
+                    </span>
+                    <span class="text-end fw-medium">{{ iletisim.adres }}</span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center py-3 bg-transparent">
+                    <span class="text-muted fw-semibold">
+                        <i class="bi bi-telephone-fill text-success me-2"></i>Telefon:
+                    </span>
+                    <span class="fw-medium">{{ iletisim.telefon }}</span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center py-3 bg-transparent">
+                    <span class="text-muted fw-semibold">
+                        <i class="bi bi-envelope-fill text-primary me-2"></i>E-Posta:
+                    </span>
+                    <span class="fw-medium text-primary">{{ iletisim.eposta }}</span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center py-3 bg-transparent">
+                    <span class="text-muted fw-semibold">
+                        <i class="bi bi-person-badge-fill text-warning me-2"></i>Yetkili Kişi:
+                    </span>
+                    <span class="fw-bold">{{ iletisim.yetkili }}</span>
+                </div>
+            </div>
+
+            <div class="text-center pt-2">
+                <a href="{{ url_for('ana_sayfa') }}" class="btn btn-outline-primary">
+                    <i class="bi bi-house me-1"></i> Ana Sayfaya Dön
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

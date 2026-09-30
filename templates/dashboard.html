@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block baslik %}Kullanıcı Paneli - Kütüphane Yönetim Sistemi{% endblock %}
+
+{% block icerik %}
+<!-- Karşılama Kartı -->
+<div class="card shadow-sm border-0 rounded-4 p-4 mb-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+        <div>
+            <h2 class="fw-bold mb-1">
+                👋 Hoş Geldiniz, {{ uye.isim if uye else session.get('kullanici_adi', 'Değerli Üyemiz') }}!
+            </h2>
+            <p class="text-muted mb-0">
+                Kütüphane hesabınız üzerinden aktif ödünçlerinizi takip edebilir ve hesap ayarlarınızı yönetebilirsiniz.
+            </p>
+        </div>
+        <div>
+            {% if uye and uye.rol == 'admin' %}
+                <span class="badge bg-danger fs-6 px-3 py-2 rounded-pill">👑 Yönetici (Admin)</span>
+            {% else %}
+                <span class="badge bg-primary fs-6 px-3 py-2 rounded-pill">📖 Okuyucu / Öğrenci</span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Hızlı İşlemler Kartı -->
+<div class="card shadow-sm border-0 rounded-4 p-4 mb-4">
+    <h4 class="fw-bold mb-3 d-flex align-items-center gap-2">
+        <i class="bi bi-lightning-charge text-warning"></i>
+        <span>⚡ Hızlı İşlemler</span>
+    </h4>
+    <div class="d-flex flex-wrap gap-2">
+        <a href="{{ url_for('profil') }}" class="btn btn-outline-primary fw-semibold px-3 py-2">
+            <i class="bi bi-person-circle me-1"></i> Profil Bilgilerim
+        </a>
+        <a href="{{ url_for('sifre_degistir') }}" class="btn btn-outline-secondary fw-semibold px-3 py-2">
+            <i class="bi bi-key me-1"></i> Şifre Değiştir
+        </a>
+        <a href="{{ url_for('kitaplar') }}" class="btn btn-outline-success fw-semibold px-3 py-2">
+            <i class="bi bi-collection me-1"></i> Kitaplara Göz At
+        </a>
+        {% if session.get('rol') == 'admin' %}
+        <a href="{{ url_for('admin') }}" class="btn btn-warning fw-semibold px-3 py-2">
+            <i class="bi bi-shield-lock me-1"></i> Admin Paneli
+        </a>
+        {% endif %}
+        <a href="{{ url_for('cikis') }}" class="btn btn-outline-danger fw-semibold px-3 py-2">
+            <i class="bi bi-box-arrow-right me-1"></i> Çıkış Yap
+        </a>
+    </div>
+</div>
+
+<!-- Aktif Ödünçler Listesi -->
+<div class="card shadow-sm border-0 rounded-4 p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold mb-0 d-flex align-items-center gap-2">
+            <i class="bi bi-journal-bookmark text-primary"></i>
+            <span>📖 Üzerinizdeki Aktif Ödünç Kitaplar</span>
+        </h4>
+        <span class="badge bg-primary rounded-pill px-3 py-2">{{ aktif_oduncler|length }} Kitap</span>
+    </div>
+
+    {% if aktif_oduncler and aktif_oduncler|length > 0 %}
+    <div class="table-responsive rounded-3 shadow-sm">
+        <table class="table table-hover table-striped align-middle mb-0 tablo-ozel">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 50px;">#</th>
+                    <th scope="col">Kitap Adı</th>
+                    <th scope="col">Yazar</th>
+                    <th scope="col">Ödünç Alma Tarihi</th>
+                    <th scope="col">Son Teslim Tarihi</th>
+                    <th scope="col" class="text-center">Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for odunc in aktif_oduncler %}
+                <tr>
+                    <td class="fw-bold text-muted">{{ loop.index }}</td>
+                    <td class="fw-semibold text-primary">{{ odunc.kitap_adi }}</td>
+                    <td>{{ odunc.yazar }}</td>
+                    <td><small class="text-muted">{{ odunc.odunc_tarihi }}</small></td>
+                    <td>
+                        <span class="badge bg-warning-subtle text-warning-emphasis px-2 py-1">
+                            <i class="bi bi-calendar-event me-1"></i>{{ odunc.son_teslim_tarihi }}
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <span class="badge bg-success px-3 py-2 rounded-pill">Aktif Ödünç</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info d-flex align-items-center justify-content-between p-4 rounded-3 mb-0" role="alert">
+        <div class="d-flex align-items-center gap-3">
+            <i class="bi bi-info-circle-fill fs-3"></i>
+            <div>
+                <h6 class="alert-heading mb-1">Aktif Ödünç Bulunmuyor</h6>
+                <p class="mb-0 small">Şu anda üzerinizde kayıtlı aktif ödünç kitap bulunmamaktadır.</p>
+            </div>
+        </div>
+        <a href="{{ url_for('kitaplar') }}" class="btn btn-sm btn-primary">
+            <i class="bi bi-search me-1"></i> Kitapları İncele
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
